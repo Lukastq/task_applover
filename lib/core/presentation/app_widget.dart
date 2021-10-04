@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:applover/auth/presentation/login_page.dart';
+import 'package:applover/authentication/presentation/login_page.dart';
 import 'package:applover/core/presentation/success_page.dart';
 
 import 'theme/app_theme.dart';
