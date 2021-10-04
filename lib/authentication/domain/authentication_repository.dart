@@ -3,6 +3,6 @@ import 'package:dartz/dartz.dart';
 
 abstract class AuthenticationRepository {
   Future<bool> isSingedIn();
-  Future<Either<AuthenticationFailure, Unit>> signIn(String email, String address);
+  Future<Either<AuthenticationFailure, Unit>> signIn(String emailAddress, String password);
   Future<void> signOut();
 }
