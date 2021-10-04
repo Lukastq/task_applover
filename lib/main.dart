@@ -10,7 +10,7 @@ void main() {
       overrides: [
         authRemoteServiceProvider.overrideWithValue(FakeAuthRemoteService()),
       ],
-      child: const AppWidget(),
+      child: AppWidget(),
     ),
   );
 }

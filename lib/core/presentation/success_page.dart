@@ -1,15 +1,17 @@
+import 'package:applover/authentication/di/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:applover/core/presentation/widgets/applover_logo.dart';
 
 
-class SuccessPage extends StatelessWidget {
+class SuccessPage extends ConsumerWidget {
   const SuccessPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     final size = MediaQuery.of(context).size;
     final double paddingTop = 0.4 * (size.height - 150 - 68);
@@ -17,7 +19,7 @@ class SuccessPage extends StatelessWidget {
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {
-          Navigator.of(context).pushNamedAndRemoveUntil("login", (e) => false);
+          ref.read(authenticationStateProvider.notifier).signOut();
           return true;
         },
         child: Scaffold(
