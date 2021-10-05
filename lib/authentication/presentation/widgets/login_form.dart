@@ -63,9 +63,9 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               padding: const EdgeInsets.only(top: 24, bottom: 40),
               child: Text("Login", style: GoogleFonts.roboto(fontSize: 20)),
             ),
-            const LoginEmailTextField(),
+            const EmailAddressTextField(),
             const SizedBox(height: 18),
-            const LoginPasswordTextField(),
+            const PasswordTextField(),
             const SizedBox(height: 18),
             SizedBox(
               width: double.infinity,

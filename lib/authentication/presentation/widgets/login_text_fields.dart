@@ -12,8 +12,8 @@ final _textFieldInputDecoration = InputDecoration(
   focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.green), borderRadius: BorderRadius.circular(6)),
 );
 
-class LoginEmailTextField extends ConsumerWidget {
-  const LoginEmailTextField({Key? key}) : super(key: key);
+class EmailAddressTextField extends ConsumerWidget {
+  const EmailAddressTextField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,8 +33,8 @@ class LoginEmailTextField extends ConsumerWidget {
   }
 }
 
-class LoginPasswordTextField extends ConsumerWidget {
-  const LoginPasswordTextField({Key? key}) : super(key: key);
+class PasswordTextField extends ConsumerWidget {
+  const PasswordTextField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
