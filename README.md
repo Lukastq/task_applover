@@ -1,6 +1,6 @@
 # applover
 
-Simple app with login and success scren.
+Simple app with login and success screen.
 
 ## Setup
 
