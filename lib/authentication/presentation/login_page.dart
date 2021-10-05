@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:flutter/material.dart';
+
+import 'package:applover/core/presentation/widgets/applover_logo.dart';
 import 'package:applover/core/presentation/constants.dart' as constants;
 
 import 'widgets/login_form.dart';
@@ -9,7 +11,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double maxWidth = math.max(MediaQuery.of(context).size.width, constants.maxWidth);
+    final double maxWidth = math.min(MediaQuery.of(context).size.width, constants.maxWidth);
 
     return SafeArea(
       child: Scaffold(
@@ -18,7 +20,19 @@ class LoginPage extends StatelessWidget {
           child: Center(
             child: SizedBox(
               width: maxWidth,
-              child: const LoginForm(),
+              child: Column(
+                children: const [
+                  SizedBox(
+                    height: 96,
+                    width: 96,
+                    child: Hero(
+                      tag: "applover",
+                      child: ApploverLogo(),
+                    ),
+                  ),
+                  LoginForm(),
+                ],
+              ),
             ),
           ),
         ),
@@ -26,4 +40,3 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-

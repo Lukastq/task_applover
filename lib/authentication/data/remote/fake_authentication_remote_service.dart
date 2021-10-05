@@ -10,7 +10,7 @@ class FakeAuthRemoteService extends AuthenticationRemoteService {
   Future<RemoteResponse> singInWithEmailAndPassword(String emailAddress, String password) async {
     await Future.delayed(const Duration(seconds: 2));
 
-    final value = random.nextInt(4);
+    final value = random.nextInt(6);
 
     switch (value) {
       case 0:

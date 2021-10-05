@@ -1,42 +1,64 @@
-
-import 'package:applover/core/presentation/success_page.dart';
-import 'package:applover/core/presentation/theme/app_colors.dart';
-import 'package:applover/core/presentation/widgets/applover_logo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'loading_page.dart';
+import 'package:applover/authentication/application/login_form_state.dart';
+import 'package:applover/authentication/di/providers.dart';
+import 'package:applover/core/presentation/theme/app_colors.dart';
+
 import 'login_text_fields.dart';
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  ConsumerState<LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends ConsumerState<LoginForm> {
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: AutofillGroup(
+    ref.listen<LoginFormStatus>(
+      loginFormStateProvider.select((state) => state.status),
+      (state) {
+        state.maybeMap(
+          orElse: () {},
+          submissionInProgress: (_) => Navigator.of(context).pushNamed('login_page_loader'),
+          submissionFailure: (_) {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(
+                    _.message,
+                    style: GoogleFonts.roboto(fontSize: 14, color: Theme.of(context).colorScheme.onError),
+                  ),
+                  backgroundColor: Theme.of(context).errorColor,
+                ),
+              );
+          },
+          submissionSuccess: (_) {
+            ref.read(authenticationStateProvider.notifier).checkAuthenticationStatus();
+          },
+        );
+      },
+    );
+
+    return AutofillGroup(
+      child: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.disabled,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 96,
-              width: 96,
-              child: Hero(
-                tag: "applover",
-                child: ApploverLogo(),
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.only(top: 24, bottom: 40),
               child: Text("Login", style: GoogleFonts.roboto(fontSize: 20)),
@@ -50,49 +72,9 @@ class _LoginFormState extends State<LoginForm> {
               child: ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
+                    FocusScope.of(context).unfocus();
                     _formKey.currentState!.save();
-
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) {
-                          return const LoadingPage();
-                        },
-                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                          const begin = Offset(-1.0, 0.0);
-                          const end = Offset.zero;
-                          final tween = Tween(begin: begin, end: end);
-                          final offsetAnimation = animation.drive(tween);
-
-                          return SlideTransition(
-                            position: offsetAnimation,
-                            child: child,
-                          );
-                        },
-                      ),
-                    );
-
-                    await Future.delayed(Duration(seconds: 2));
-
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) {
-                          return const SuccessPage();
-                        },
-                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                          const begin = Offset(-1.0, 0.0);
-                          const end = Offset.zero;
-                          final tween = Tween(begin: begin, end: end);
-                          final offsetAnimation = animation.drive(tween);
-
-                          return SlideTransition(
-                            position: offsetAnimation,
-                            child: child,
-                          );
-                        },
-                      ),
-                    );
+                    ref.read(loginFormStateProvider.notifier).submit();
                   }
                 },
                 style: ButtonStyle(

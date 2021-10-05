@@ -58,7 +58,7 @@ class AppWidget extends ConsumerWidget {
             },
             transitionsBuilder: _customSlideTransition,
           );
-        } else if (settings.name == 'login_loading') {
+        } else if (settings.name == 'login_page_loader') {
           return PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) {
               return const LoadingPage();
