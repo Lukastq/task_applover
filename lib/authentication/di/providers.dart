@@ -1,3 +1,5 @@
+import 'package:applover/authentication/application/login_form_state.dart';
+import 'package:applover/authentication/application/login_form_state_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:applover/authentication/application/authentication_state_notifier.dart';
@@ -15,4 +17,8 @@ final authRepositoryProvider = Provider<AuthenticationRepository>(
 
 final authenticationStateProvider = StateNotifierProvider<AuthenticationStatusNotifier, AuthenticationStatus>(
   (ref) => AuthenticationStatusNotifier(ref.watch(authRepositoryProvider)),
+);
+
+final loginFormStateProvider = StateNotifierProvider<LoginFormStateNotifier, LoginFormState>(
+  (ref) => LoginFormStateNotifier(ref.watch(authRepositoryProvider)),
 );
